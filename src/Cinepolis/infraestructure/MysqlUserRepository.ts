@@ -1,46 +1,112 @@
-//import { query } from "../../database/mysql";
 import { Usuario } from "../domain/entities/User";
 import { UserRepository } from "../domain/repository/UserRepository";
+import UsuarioModel from "./model/UsuarioModel";
 
-export class MysqlUserRepository implements UserRepository {
+export class MysqlUserReporitory implements UserRepository {
+  async createUser(
+    id : number,
+    nombre: string,
+    password: string,
+    usuario: string,
+    correo: string
+  ): Promise<Usuario | null> {
+    try {
+      const createUsuario = await UsuarioModel.create({
+        id,
+        nombre,
+        password,
+        usuario,
+        correo
+      });
+      return new Usuario(
+      createUsuario.id,
+       createUsuario.nombre,
+       createUsuario.password,
+       createUsuario.usuario,
+       createUsuario.correo
+      );
+    } catch (error) {
+      console.log("Error en sqlPersonaje.repositorio en addPersonaje", error);
+      return null;
+    }
+  }
+
+  //AQUI EN EL RETORNO EL STRING SE ESTA MANDANDO VACIO PERO DEBE DE ENVIARSE EL TOKEN EN ESE STRING
   async getUser(
     usuario: string,
     password: string
-  ): Promise<[Usuario[], string] | null> {
-    const sql = "SELECT * FROM usuarios where usuario= ? ";
-    let params: any[] = [usuario];
+  ): Promise<[Usuario, string] | null> {
     try {
-      const [data]: any = await query(sql, params);
-      const dataUsers : any = Object.values(JSON.parse(JSON.stringify(data)));
-      return dataUsers
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
-  }
-  async getAllUser(): Promise<Usuario[] | null> {
-    const sql = "SELECT * FROM usuarios ";
-    try {
-      const [data]: any = await query(sql, []);
-      const dataUsers = Object.values(JSON.parse(JSON.stringify(data)));
+      const getSignUsuario = await UsuarioModel.findOne({
+        where: { usuario: usuario },
+      });
 
-      return dataUsers.map(
-        (user: any) =>
+      if (getSignUsuario) {
+        await getSignUsuario.get()
+        return [
           new Usuario(
-            user.id,
-            user.nombre,
-            user.password,
-            user.usuario,
-            user.correo
-          )
-      );
+          getSignUsuario.id,
+           getSignUsuario.nombre,
+           getSignUsuario.password,
+           getSignUsuario.usuario,
+           getSignUsuario.correo
+          ),
+          "",
+        ];
+      } else {
+        return null;
+      }
     } catch (error) {
-      console.log(error);
+      console.log("Error en sqlPersonaje.repositorio en getPersonaje", error);
       return null;
     }
   }
 
-  async createUser(
+  async getAllUser(): Promise<Usuario[] | null> {
+    try {
+      const usuario = await UsuarioModel.findAll();
+      console.log(usuario);
 
+      return usuario.map((user) => ({
+        id : user.id,
+        nombre: user.nombre,
+        password: user.password,
+        usuario: user.usuario,
+        correo: user.correo
+      }));
+    } catch (error) {
+      console.log(
+        "Error en sqlPersonaje.repositorio en getAllPersonajes",
+        error
+      );
+      return null;
+    }
   }
+
+
+  async deleteUser(nombre: string): Promise<Usuario | null> {
+    try {
+      const usuarioEliminado = await UsuarioModel.findOne({where:{nombre:nombre}});
+      if (usuarioEliminado) {
+        await usuarioEliminado.destroy();
+        return new Usuario(usuarioEliminado.id , usuarioEliminado.nombre , usuarioEliminado.password , usuarioEliminado.usuario , usuarioEliminado.correo)
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.log("Error en sqlCapitulo.repositorio en deleteCapitulo", error);
+      return null;
+    }
+    
+  }
+
+  async updateUserCorreo(correo: string): Promise<Usuario | null> {
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
+
+
 }
