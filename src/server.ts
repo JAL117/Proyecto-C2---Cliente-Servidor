@@ -5,11 +5,9 @@ import * as dotenv from "dotenv";
 import helmet from "helmet";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-
 import { iniciarBaseDeDatos } from "./database/mysql";
-import { Resolvers } from "./Cinepolis/infraestructure/Graphql/Resolvers";
 import { typeDefs } from "./Cinepolis/infraestructure/Graphql/Schemas";
-
+import { resolver } from "./Cinepolis/infraestructure/Dependencies";
 const app = express();
 app.use(helmet.hidePoweredBy());
 dotenv.config();
@@ -25,13 +23,13 @@ const options = {
 const logger = new Signale(options);
 
 
-let resolvers = Resolvers.prototype.resolvers;
+let resolvers = resolver.resolvers;
 interface Mycontext{
   authScope?:String;
 }
 
 
-const server = new ApolloServer<Mycontext>({
+const server = new ApolloServer({
   typeDefs,
   resolvers,
 });

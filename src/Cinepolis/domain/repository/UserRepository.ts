@@ -17,7 +17,6 @@ export interface UserRepository {
 
   
   createUser(
-    id : number,
     nombre: string,
     password: string,
     usuario: string,

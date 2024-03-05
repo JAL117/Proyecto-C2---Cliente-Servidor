@@ -17,6 +17,8 @@ export class GetUserUseCase {
       const user = await this.userRepository.getUser(usuario, password);
       if (user != null) {
         let user1: Object = user[0];
+        console.log(user1,"sdf");
+        
         if ("password" in user1) {
           let password2 = user1.password;
           if (typeof password2 == "string") {
@@ -27,7 +29,9 @@ export class GetUserUseCase {
                 String(process.env.SECRET_TOKEN),
                 100 * 100
               );
-              const data: any = [user, tokenNew];
+              console.log(user);
+              
+              const data: any = [user1, tokenNew];
               return data;
             } else {
               return null;
