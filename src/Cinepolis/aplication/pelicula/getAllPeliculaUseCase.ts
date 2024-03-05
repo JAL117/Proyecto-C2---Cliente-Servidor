@@ -1,9 +1,9 @@
 import { Peliculas } from "../../domain/entities/Peliculas";
 import { PeliculasRepository } from "../../domain/repository/PeliculasRepository";
 
-export class GetAllUserUseCase {
+export class GetAllPeliculaUseCase {
   constructor(readonly peliculasRepository: PeliculasRepository) {}
-  async run(): Promise<Peliculas | null> {
+  async run(): Promise<Peliculas[]| null> {
     try {
       const peliculas = await this.peliculasRepository.getAllPeliculas();
       return peliculas;

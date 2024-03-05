@@ -17,7 +17,7 @@ type Peliculas{
 }
 type Query{
     user(usuario:String, password:String): Usuario
-    users: [Usuario]
+    users:[Usuario]
     peliculas:[Peliculas]
     peliculaByTitulo(titulo:String):Peliculas
     peliculaByDirector(director:String):Peliculas
