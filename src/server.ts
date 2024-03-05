@@ -1,13 +1,14 @@
 import express from "express";
 import morgan from "morgan";
-import { Signale } from "signale";
+import signale, { Signale } from "signale";
 import * as dotenv from "dotenv";
 import helmet from "helmet";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { typeDefs } from "./Cinepolis/infraestructure/ServicesGraphql/Schemas";
-import { Resolvers } from "./Cinepolis/infraestructure/ServicesGraphql/Resolvers";
+import { typeDefs } from "./Cinepolis/infraestructure/Graphql/Schemas";
+//import { Resolvers } from "./Cinepolis/infraestructure/Graphql/Resolvers";
 import { userRouter } from "./Cinepolis/infraestructure/UserRouter";
+import { iniciarBaseDeDatos } from "./database/mysql";
 
 const app = express();
 app.use(helmet.hidePoweredBy());
@@ -22,15 +23,29 @@ const options = {
 
 const logger = new Signale(options);
 //const port: number | undefined = process.env.PORT;
-let resolvers = Resolvers.prototype.resolvers;
+//let resolvers = Resolvers.prototype.resolvers;
 const server = new ApolloServer({
   typeDefs,
-  resolvers,
+  //resolvers,
 });
 
-(async () => {
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
-  });
-  console.log(`servidor corriendo en ${url}`);
-})();
+(async ()=>{
+  try {
+    await iniciarBaseDeDatos();
+    const {url} = await startStandaloneServer(server,{
+      listen:{port:4000},
+    });
+    signale.success(`serviodr en linea ${url}`);
+  } catch (error) {
+    signale.error("Error en servidor" , error );    
+  }
+})
+
+
+
+//(async () => {
+//  const { url } = await startStandaloneServer(server, {
+ //   listen: { port: 4000 },
+ // });
+ // console.log(`servidor corriendo en ${url}`);
+//})();

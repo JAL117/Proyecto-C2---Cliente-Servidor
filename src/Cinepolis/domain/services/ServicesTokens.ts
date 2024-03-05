@@ -1,5 +1,5 @@
 import {sign} from "jsonwebtoken"
-import { IServicesToken } from "../../domain/services/ITokens"
+import { IServicesToken } from "./ITokens"
 
 export class ServicesTokens implements IServicesToken{
     async  singToken(usuario: string, secret: string, expiresIn: number): Promise<string | null> {  

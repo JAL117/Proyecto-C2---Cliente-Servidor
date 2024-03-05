@@ -1,9 +1,9 @@
-import { CreateUserUseCase } from "../app/User/CreateUserUseCase";
-import { GetUserUseCase } from "../app/User/GetUserUseCase";
-import { ServicesTokensUser } from "../app/services/ServicesTokens";
+import { CreateUserUseCase } from "../aplication/usuario/CreateUserUseCase";
+import { GetUserUseCase } from "../aplication/usuario/GetUserUseCase";
+import { ServicesTokensUser } from "../aplication/services/ServicesTokens";
 import { MysqlUserRepository } from "./MysqlUserRepository";
 import { EncryptServices } from "./helpers/EncriptServices";
-import { ServicesTokens } from "./servicesTokens/ServicesTokens";
+import { ServicesTokens } from "../domain/services/ServicesTokens";
 import { CreateUserController } from "./controllers/CreateUserController";
 import { GetUserController } from "./controllers/GetUserController";
 

@@ -1,5 +1,5 @@
 export const typeDefs = `
-type User{
+type Usuario{
     id:ID
     nombre: String
     password: String
@@ -7,7 +7,7 @@ type User{
     correo:String
     urlhook:String
 }
-type Animal{
+type Peliculas{
     id:ID
     nombre:String
     edad:Int

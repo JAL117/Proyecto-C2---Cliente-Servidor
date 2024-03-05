@@ -1,5 +1,5 @@
 import { compare, hash } from "bcryptjs";
-import { IEncryptServices } from "../../app/services/IEncrypt";
+import { IEncryptServices } from "../../aplication/services/IEncrypt";
 
 export class EncryptServices implements IEncryptServices {
   async encodePassword(password: string): Promise<string> {

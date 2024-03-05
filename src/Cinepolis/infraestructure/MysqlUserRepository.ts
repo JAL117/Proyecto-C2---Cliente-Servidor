@@ -1,12 +1,12 @@
 import { query } from "../../database/mysql";
-import { User } from "../domain/entities/User";
+import { Usuario } from "../domain/entities/User";
 import { UserRepository } from "../domain/repository/UserRepository";
 
 export class MysqlUserRepository implements UserRepository {
   async getUser(
     usuario: string,
     password: string
-  ): Promise<[User[], string] | null> {
+  ): Promise<[Usuario[], string] | null> {
     const sql = "SELECT * FROM usuarios where usuario= ? ";
     let params: any[] = [usuario];
     try {
@@ -18,7 +18,7 @@ export class MysqlUserRepository implements UserRepository {
       return null;
     }
   }
-  async getAllUser(): Promise<User[] | null> {
+  async getAllUser(): Promise<Usuario[] | null> {
     const sql = "SELECT * FROM usuarios ";
     try {
       const [data]: any = await query(sql, []);
@@ -26,7 +26,7 @@ export class MysqlUserRepository implements UserRepository {
 
       return dataUsers.map(
         (user: any) =>
-          new User(
+          new Usuario(
             user.id,
             user.nombre,
             user.password,
@@ -45,14 +45,14 @@ export class MysqlUserRepository implements UserRepository {
     password: string,
     usuario: string,
     correo: string
-  ): Promise<User | null> {
+  ): Promise<Usuario | null> {
     const sql =
       "INSERT INTO usuarios (id,nombre,password,usuario,correo) VALUES (?, ?, ?, ?, ?)";
     const params: any[] = [0,nombre, password, usuario, correo ];
     try {
       const [result]: any = await query(sql, params);
       console.log(result);
-      const user = new User(
+      const user = new Usuario(
         result.insertId,
         nombre,
         password,

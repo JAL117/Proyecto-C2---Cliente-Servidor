@@ -1,4 +1,4 @@
-import { ServicesTokens } from "../../infraestructure/servicesTokens/ServicesTokens";
+import { ServicesTokens } from "../../domain/services/ServicesTokens";
 
 export class ServicesTokensUser {
   constructor(readonly webToken: ServicesTokens) {}

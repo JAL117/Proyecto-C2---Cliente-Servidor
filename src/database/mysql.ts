@@ -1,31 +1,31 @@
 import dotenv from "dotenv";
-import mysql from "mysql2/promise";
 import { Signale } from "signale";
+import  {Sequelize}  from "sequelize-typescript";
+import UsuarioModel from "../Cinepolis/infraestructure/model/UsuarioModel"
+import PelicularModel from "../Cinepolis/infraestructure/model/PeliculasModel"
 
 dotenv.config();
 const signale = new Signale();
 
-const config = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
-    waitForConnections: true,
-    connectionLimit: 6,
-  };
+export const sequelize = new Sequelize({
+  dialect :"mysql",
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port : 3306,
+  models:[UsuarioModel , PelicularModel]
+})
 
-  const pool = mysql.createPool(config);
+ 
 
-  export async function query(sql: string, params: any[]) {
-    try {
-      const conn = await pool.getConnection();
-      signale.success("Conexión exitosa a la BD");
-      const result = await conn.execute(sql, params);
-      conn.release();
-      return result;
-    } catch (error) {
-      signale.error(error);
-      return null;
-    }
+  export async function iniciarBaseDeDatos() {
+   try {
+    await sequelize.authenticate();
+    signale.success("Coenctado");
+    await sequelize.sync({force:false})
+   } catch (error) {
+    signale.error("Error al conectar" , error)
+   }
   }
   
