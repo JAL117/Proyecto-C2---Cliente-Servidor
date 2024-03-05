@@ -1,4 +1,4 @@
-import {sign} from "jsonwebtoken"
+import {JwtPayload, sign, verify} from "jsonwebtoken"
 import { IServicesToken } from "../../domain/services/ITokens"
 
 export class ServicesTokens implements IServicesToken{
@@ -11,4 +11,13 @@ export class ServicesTokens implements IServicesToken{
             return null;
         }
     }
+    async verifyToken(token: string): Promise<string | JwtPayload | null> {
+        try {
+            const id = verify(token , process.env.SECRET_TOKEN || "secreto" );
+            return id;
+        } catch (error) {
+            return null
+        }
+    }
 }
+

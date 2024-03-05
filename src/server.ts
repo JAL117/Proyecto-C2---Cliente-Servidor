@@ -16,16 +16,22 @@ dotenv.config();
 app.use(morgan("dev"));
 app.use(express.json());
 
-
 const options = {
   secrets: ["([0-9]{4}-?)+"],
 };
+
+
 
 const logger = new Signale(options);
 
 
 let resolvers = Resolvers.prototype.resolvers;
-const server = new ApolloServer({
+interface Mycontext{
+  authScope?:String;
+}
+
+
+const server = new ApolloServer<Mycontext>({
   typeDefs,
   resolvers,
 });
@@ -36,6 +42,9 @@ const server = new ApolloServer({
     await iniciarBaseDeDatos();
     const { url } = await startStandaloneServer(server, {
       listen: { port: 4000 },
+      context: async ({req , res})=>({
+        authScope:(req.headers.authorization)?.toString(),
+      })
     });
     signale.success(`servidor corriendo en ${url}`);
   } catch (error) {

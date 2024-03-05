@@ -20,7 +20,7 @@ import { ServicesTokens } from "./helpers/ServicesTokens";
 
 
 import { Resolvers } from "./Graphql/Resolvers";
-
+import { ServicesAuth } from "../aplication/services/ServicesAuth";
 
 import { MysqlUserReporitory } from "./MysqlUserRepository";
 import { MysqlPeliculasRepository } from "./MysqlPeliculasRepository";
@@ -29,6 +29,7 @@ const mysqlPeliculasRepository = new MysqlPeliculasRepository();
 const mysqlUserRepository = new MysqlUserReporitory();
 const ecripty = new  EncryptServices();
 const serviceTokensR= new ServicesTokens();
+const serviceAuth = new ServicesAuth(serviceTokensR);
 
 
 const serviceTokens = new ServicesTokensUser(serviceTokensR);
@@ -86,6 +87,6 @@ const updatePeliculaCategoria = new UpdatePeliculaCategoriaUseCase(
 )
 
 export const resolver = new Resolvers(
-    createUser , deleteUser , getAllUsers , getUser , updateUser , getAllPeliculas , getPeliculabyCategoria , getPeliculabyDirector ,getPeliculabyTitulo , updatePeliculaCategoria , addPelicula , deletePelicula
+    createUser , deleteUser , getAllUsers , getUser , updateUser , getAllPeliculas , getPeliculabyCategoria , getPeliculabyDirector ,getPeliculabyTitulo , updatePeliculaCategoria , addPelicula , deletePelicula , serviceAuth
 )
 

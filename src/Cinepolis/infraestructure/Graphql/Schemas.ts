@@ -2,7 +2,7 @@ import {gql} from "apollo-server-express";
 
 export const typeDefs = gql`
 type Usuario{
-    id:ID
+    id:Int
     nombre: String
     password: String
     usuario:String
@@ -30,6 +30,7 @@ input peliculaInput {
     categoria : String
 }
 input usuarioInput {
+    id:Int
     nombre: String
     password: String
     usuario: String
