@@ -19,10 +19,10 @@ class EventoWebhookModel extends Model{
     public url! : string;
 
     @Column({
-        type: DataType.ARRAY(DataType.STRING), // Utiliza ARRAY para almacenar un arreglo de cadenas
+        type: DataType.STRING, 
         allowNull: false,
       })
-      public eventos!: string[];
+      public events!: string;
     
 }
 

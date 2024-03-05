@@ -69,7 +69,11 @@ export class Resolvers {
 
         if (key) {
           const usuarios: any = await this.getAllUserUseCase.run();
+          const [url]: any = await this.servicesSearchWebhook.run("allUsers");
           console.log(usuarios);
+          if (url) {
+            const e = await this.servicesSendWebhook.run(url.url, usuarios);
+          }
           return usuarios;
         } else {
           throw (

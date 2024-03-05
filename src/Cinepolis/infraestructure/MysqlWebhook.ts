@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import EventoWebhookModel from './model/EventosWebhook'; 
 import { Sequelize } from 'sequelize-typescript';
 export class MysqlWebhookRepository implements IWebhook {
-  async receive(url: string, events: string[]): Promise<string | null> { 
+  async receive(url: string, events: string): Promise<string | null> { 
     try {
       await EventoWebhookModel.create({ url, events });
       return 'Elemento creado';
@@ -13,15 +13,17 @@ export class MysqlWebhookRepository implements IWebhook {
     }
   }
 
-  async search(event: string): Promise<string[] | null> {
+  async search(event: string): Promise<string | null> {
     try {
-      const webhooks = await EventoWebhookModel.findAll({
-        where: Sequelize.where(
-          Sequelize.fn('JSON_CONTAINS', Sequelize.col('events'), JSON.stringify([event])),
-          true
-        )
+      const webhooks:any = await EventoWebhookModel.findAll({
+        where: {
+          events:event
+        }
+        
       });
-      return webhooks.map((webhook: any) => webhook.url);
+      console.log(webhooks);
+      
+      return webhooks;
     } catch (error) {
       console.error(error);
       return null;

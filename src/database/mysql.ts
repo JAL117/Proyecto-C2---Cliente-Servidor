@@ -3,6 +3,7 @@ import { Signale } from "signale";
 import  {Sequelize}  from "sequelize-typescript";
 import UsuarioModel from "../Cinepolis/infraestructure/model/UsuarioModel"
 import PeliculasModel from "../Cinepolis/infraestructure/model/PeliculasModel"
+import EventoWebhookModel from "../Cinepolis/infraestructure/model/EventosWebhook";
 
 dotenv.config();
 const signale = new Signale();
@@ -14,7 +15,7 @@ export const sequelize = new Sequelize({
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port : 3306,
-  models:[UsuarioModel , PeliculasModel]
+  models:[UsuarioModel , PeliculasModel , EventoWebhookModel]
 })
 
  
