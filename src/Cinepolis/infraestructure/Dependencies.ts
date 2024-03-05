@@ -3,7 +3,7 @@ import { GetUserUseCase } from "../aplication/usuario/GetUserUseCase";
 import { ServicesTokensUser } from "../aplication/services/ServicesTokens";
 import { MysqlUserRepository } from "./MysqlUserRepository";
 import { EncryptServices } from "./helpers/EncriptServices";
-import { ServicesTokens } from "../domain/services/ServicesTokens";
+import { ServicesTokens } from "./helpers/ServicesTokens";
 import { CreateUserController } from "./controllers/CreateUserController";
 import { GetUserController } from "./controllers/GetUserController";
 

@@ -1,4 +1,4 @@
-import { User } from "../../domain/entities/User";
+import { Usuario } from "../../domain/entities/User";
 import { UserRepository } from "../../domain/repository/UserRepository";
 import { IEncryptServices } from "../services/IEncrypt";
 
@@ -12,7 +12,7 @@ export class CreateUserUseCase {
     password: string,
     usuario: string,
     correo:string 
-      ): Promise<User | null> {
+      ): Promise<Usuario | null> {
     try {
       const newPassword = await this.options.encodePassword(password);
       const user = await this.userRepository.createUser(

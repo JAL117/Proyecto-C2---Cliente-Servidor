@@ -1,4 +1,4 @@
-import { User } from "../../domain/entities/User";
+import { Usuario } from "../../domain/entities/User";
 import { UserRepository } from "../../domain/repository/UserRepository";
 import { IEncryptServices } from "../services/IEncrypt";
 import { ServicesTokensUser } from "../services/ServicesTokens";
@@ -12,7 +12,7 @@ export class GetUserUseCase {
   async run(
     usuario: string,
     password: string
-  ): Promise<[User[], string] | null> {
+  ): Promise<[Usuario[], string] | null> {
     try {
       const user = await this.userRepository.getUser(usuario, password);
       if (user != null) {

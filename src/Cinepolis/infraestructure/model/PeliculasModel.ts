@@ -17,22 +17,17 @@ class UsuarioModel extends Model{
     })
     public titulo! : string;
     @Column({
-        type : DataType.INTEGER,
+        type : DataType.STRING,
         allowNull: false
     })
-    public like! : number;
+    public director! :string;
 
     @Column({
-        type: DataType.INTEGER,
+        type: DataType.STRING,
         allowNull: false
     })
-    public dislike! :number;
+    public categoria! :string;
 
-    @Column({
-        type: DataType.BOOLEAN,
-        allowNull: false
-    })
-    public destacado! : boolean;
 
   
 
