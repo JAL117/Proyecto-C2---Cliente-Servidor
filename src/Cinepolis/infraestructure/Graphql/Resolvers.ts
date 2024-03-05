@@ -76,6 +76,7 @@ export class Resolvers {
             args.categoria
           );
           console.log(pelicula);
+          return pelicula
         } else {
           throw (
             (new GraphQLError("Acceso denegado"),
@@ -109,6 +110,7 @@ export class Resolvers {
             args.director
           );
           console.log(pelicula);
+          return pelicula
         } else {
           throw (
             (new GraphQLError("Acceso denegado"),
@@ -126,6 +128,7 @@ export class Resolvers {
             args.titulo
           );
           console.log(pelicula);
+          return pelicula
         } else {
           throw (
             (new GraphQLError("Acceso denegado"),
@@ -153,9 +156,9 @@ export class Resolvers {
         let key = await this.servicesAuth.run(context.authScope);
 
         if (key) {
-          const usuario = await this.deleteUserUseCase.run(args.nombre);
+          const usuario = await this.deleteUserUseCase.run(args.usuario.nombre);
           console.log(usuario);
-          return usuario;
+          return (usuario);
         } else {
           throw (
             (new GraphQLError("Acceso denegado"),
@@ -170,8 +173,8 @@ export class Resolvers {
 
         if (key) {
           const usuario = await this.updateUserCorreoUseCase.run(
-            args.id,
-            args.nombre
+            args.usuario.id,
+            args.usuario.correo
           );
           console.log(usuario);
           return usuario;
@@ -188,12 +191,13 @@ export class Resolvers {
         let key = await this.servicesAuth.run(context.authScope);
         if (key) {
           const pelicula = await this.addPeliculaUseCase.run(
-            args.id,
-            args.titulo,
-            args.director,
-            args.categoria
+            args.pelicula.id,
+            args.pelicula.titulo,
+            args.pelicula.director,
+            args.pelicula.categoria
           );
           console.log(pelicula);
+          return pelicula
         } else {
           throw (
             (new GraphQLError("Acceso denegado"),
