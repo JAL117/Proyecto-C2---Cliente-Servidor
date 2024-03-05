@@ -31,19 +31,17 @@ const server = new ApolloServer({
 });
 
 
-
-
-(async ()=>{
+(async () => {
   try {
     await iniciarBaseDeDatos();
-    const {url} = await startStandaloneServer(server,{
-      listen:{port:4000},
+    const { url } = await startStandaloneServer(server, {
+      listen: { port: 4000 },
     });
-    signale.success(`serviodr en linea ${url}`);
+    signale.success(`servidor corriendo en ${url}`);
   } catch (error) {
-    signale.error("Error en servidor" , error );    
+    signale.error("Error al iniciar el servidor", error);
   }
-})
+})();
 
 
 
