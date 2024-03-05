@@ -23,8 +23,8 @@ export class Resolvers {
     readonly getAllUserUseCase: GetAllUserUseCase,
     readonly getUserUseCase: GetUserUseCase,
     readonly updateUserCorreoUseCase: UpdateUserCorreoUseCase,
+    
     //Peliculas
-
     readonly getAllPeliculaUseCase: GetAllPeliculaUseCase,
     readonly getPeliculabyCategoriaUseCase: GetPeliculabyCategoriaUseCase,
     readonly getPeliculabyDirectorUseCase: GetPeliculabyDirectorUseCase,
@@ -42,7 +42,7 @@ export class Resolvers {
         let key = await this.servicesAuth.run(context.authScope);
         
         if (key) {
-              const Usuario: any = await this.getUserUseCase.run(
+          const Usuario: any = await this.getUserUseCase.run(
           args.usuario,
           args.password
         );
@@ -60,9 +60,9 @@ export class Resolvers {
         let key = await this.servicesAuth.run(context.authScope);
 
         if (key) {
-        const usuarios: any = await this.getAllUserUseCase.run();
-        console.log(usuarios);      
-         return usuarios;
+          const usuarios: any = await this.getAllUserUseCase.run();
+          console.log(usuarios);      
+          return usuarios;
         } else {
           throw new GraphQLError("Acceso denegado"),{
             extensions: {code: "UNAUTHENTICATE"}
