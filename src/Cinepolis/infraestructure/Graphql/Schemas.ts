@@ -10,10 +10,10 @@ type Usuario{
     urlhook:String
 }
 type Peliculas{
-     id:number
-     titulo: string
-     director : string
-     categoria : string
+     id:Int
+     titulo: String
+     director : String
+     categoria : String
 }
 type Query{
     user(usuario:String, password:String): Usuario
@@ -23,13 +23,13 @@ type Query{
     peliculaByDirector(director:String):Peliculas
     peliculaByCategoria(categoria:String):Peliculas    
 }
-type peliculaInput {
-    id:number
-    titulo: string
-    director : string
-    categoria : string
+input peliculaInput {
+    id:Int
+    titulo: String
+    director : String
+    categoria : String
 }
-type usuarioInput {
+input usuarioInput {
     nombre: String
     password: String
     usuario: String
