@@ -50,6 +50,7 @@ type Mutation{
     deleteUser(usuario: usuarioInput):Usuario
     updateUser(usuario:usuarioInput):Usuario
     createUser(usuario:usuarioInput):Usuario
+    createWebhook(url:String, events:[String]):String
 
  
 }

@@ -15,6 +15,10 @@ import { UpdatePeliculaCategoriaUseCase } from "../../aplication/pelicula/update
 import { ServicesAuth } from "../../aplication/services/ServicesAuth";
 import { GraphQLError } from "graphql";
 
+import { ServicesCreateWebhook } from "../../aplication/services/ServiceWebhook";
+import { ServicesSearchWebhook } from "../../aplication/services/ServicesSearchWebhook";
+import { ServicesSendWebhook } from "../../aplication/services/ServicesSendWebhook";
+
 export class Resolvers {
   constructor(
     //Usuario
@@ -33,25 +37,33 @@ export class Resolvers {
     readonly addPeliculaUseCase: addPeliculaUseCase,
     readonly deletePeliculaUseCase: DeletePeliculaUseCase,
 
-    readonly servicesAuth: ServicesAuth
+    readonly servicesAuth: ServicesAuth,
+
+    //webHook
+    readonly servicesCreateWebhook: ServicesCreateWebhook,
+    readonly servicesSearchWebhook: ServicesSearchWebhook,
+    readonly servicesSendWebhook: ServicesSendWebhook
   ) {}
   
   resolvers: any = {
     Query: {
       usuario: async (_: void, args: any) => {
-      
-        console.log("mamaste");
-        
-    
+       
           const Usuario: any = await this.getUserUseCase.run(
             args.usuario,
             args.password
           ) 
-          console.log(Usuario[0], Usuario[1]);
+          const [url]: any = await this.servicesSearchWebhook.run("login");
+          if (url) {
+            const e = await this.servicesSendWebhook.run(url.url, Usuario);
+          }
+          
 
           return {user:Usuario[0],token:Usuario[1]};
         
       },
+
+
       usuarios: async (_: void, args: any, context: any) => {
         let key = await this.servicesAuth.run(context.authScope);
 
@@ -238,6 +250,13 @@ export class Resolvers {
             })
           );
         }
+      }, 
+      createWebhook: async (__: void, args: any) => {
+        const data = await this.servicesCreateWebhook.run(
+          args.url,
+          args.events
+        );
+        return data;
       },
     },
   };
