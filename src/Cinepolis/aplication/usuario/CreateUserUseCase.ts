@@ -8,6 +8,7 @@ export class CreateUserUseCase {
     readonly options: IEncryptServices
   ) {}
   async run(
+    id:number,
     nombre: string,
     password: string,
     usuario: string,
@@ -16,6 +17,7 @@ export class CreateUserUseCase {
     try {
       const newPassword = await this.options.encodePassword(password);
       const user = await this.userRepository.createUser(
+        id,
         nombre,
         newPassword,
         usuario,

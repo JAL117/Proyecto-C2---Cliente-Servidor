@@ -1,12 +1,13 @@
 import {Usuario} from '../../domain/entities/User'
 import { UserRepository } from '../../domain/repository/UserRepository';
 
-export class PutCapituloCasoUso{
+export class UpdateUserCorreoUseCase{
     constructor(readonly userRepository:UserRepository){}
-    async run(correo:string):Promise <Usuario | null>{
+    async run(id:number , correo:string):Promise <Usuario | null>{
         try {
             const usuario = await this.userRepository.updateUserCorreo(
-              correo
+                id,
+                correo
             );
             return usuario;
         } catch (error) {

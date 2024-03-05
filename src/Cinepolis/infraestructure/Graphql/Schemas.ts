@@ -29,7 +29,7 @@ type peliculaInput {
     director : string
     categoria : string
 }
-type userInput {
+type usuarioInput {
     nombre: String
     password: String
     usuario: String
@@ -37,7 +37,14 @@ type userInput {
 }
 
 type Mutation{
-  
-   
+    addPelicula(pelicula:peliculaInput):Peliculas
+    deletePelicula(pelicula:peliculaInput):Peliculas
+    updatePeliculaCategoria(pelicula:peliculaInput):Peliculas
+    
+    deleteUser(usuario: usuarioInput):Usuario
+    updateUserCorreo(usuario:usuarioInput):Usuario
+    createUser(usuario:usuarioInput):Usuario
+
+ 
 }
 `;
