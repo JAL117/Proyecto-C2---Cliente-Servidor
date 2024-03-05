@@ -23,8 +23,9 @@ import { Resolvers } from "./Graphql/Resolvers";
 
 
 import { MysqlUserReporitory } from "./MysqlUserRepository";
+import { MysqlPeliculasRepository } from "./MysqlPeliculasRepository";
 
-
+const mysqlPeliculasRepository = new MysqlPeliculasRepository();
 const mysqlUserRepository = new MysqlUserReporitory();
 const ecripty = new  EncryptServices();
 const serviceTokensR= new ServicesTokens();
@@ -56,7 +57,35 @@ const updateUser = new UpdateUserCorreoUseCase(
     mysqlUserRepository
 )
 
+const addPelicula = new addPeliculaUseCase(
+    mysqlPeliculasRepository
+)
+
+const deletePelicula = new DeletePeliculaUseCase(
+    mysqlPeliculasRepository
+)
+
+const getAllPeliculas = new GetAllPeliculaUseCase(
+    mysqlPeliculasRepository
+)
+
+const getPeliculabyCategoria = new GetPeliculabyCategoriaUseCase(
+    mysqlPeliculasRepository
+)
+
+const getPeliculabyDirector = new GetPeliculabyDirectorUseCase(
+    mysqlPeliculasRepository
+)
+
+const getPeliculabyTitulo= new GetPeliculabyTituloUseCase(
+    mysqlPeliculasRepository
+)
+
+const updatePeliculaCategoria = new UpdatePeliculaCategoriaUseCase(
+    mysqlPeliculasRepository
+)
+
 export const resolver = new Resolvers(
-    createUser , deleteUser , getAllUsers , getUser , updateUser
+    createUser , deleteUser , getAllUsers , getUser , updateUser , getAllPeliculas , getPeliculabyCategoria , getPeliculabyDirector ,getPeliculabyTitulo , updatePeliculaCategoria , addPelicula , deletePelicula
 )
 
