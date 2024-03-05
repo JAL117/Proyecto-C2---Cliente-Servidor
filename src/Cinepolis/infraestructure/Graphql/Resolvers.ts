@@ -48,6 +48,32 @@ export class Resolvers {
 
         return usuarios;
       },
+      peliculaByCategoria:async(_:void , args:any)=>{
+        const pelicula : any = this.getPeliculabyCategoriaUseCase.run(
+            args.categoria
+        )
+        console.log(pelicula);
+      },
+      peliculas: async(_:void , args : any)=>{
+        const peliculas : any = await this.getAllPeliculaUseCase.run();
+        console.log(peliculas);
+        
+      },
+      peliculaByDirector: async(_:void,args:any)=>{
+        const pelicula : any = this.getPeliculabyDirectorUseCase.run(
+            args.director
+        )
+        console.log(pelicula);
+        
+      },
+      peliculaByTitulo: async(_:void , args:any)=>{
+        const pelicula : any = this.getPeliculabyTituloUseCase.run(
+            args.titulo
+        )
+        console.log(pelicula);
+        
+      }
+
     },
     Mutation: {
       createUser: async (_: void, args: any) => {
@@ -74,6 +100,29 @@ export class Resolvers {
         console.log(usuario);
         return usuario;
       },
+      addPelicula: async (_:void , args: any)=>{
+        const pelicula = await this.addPeliculaUseCase.run(
+            args.id,
+            args.titulo,
+            args.director,
+            args.categoria
+        )
+        console.log(pelicula); 
+      },
+      deletePelicula: async (_:void , args:any)=>{
+       const pelicula = await this.deletePeliculaUseCase.run(
+          args.titulo
+       )
+       console.log(pelicula);
+      },
+      updatePeliculaCategoria: async(_:void , args:any)=>{
+        const pelicula = await this.updapePeliculaCategoriaUseCase.run(
+            args.categoria
+        )
+        console.log(pelicula);
+        
+      }  
+      
     },
   };
 }
