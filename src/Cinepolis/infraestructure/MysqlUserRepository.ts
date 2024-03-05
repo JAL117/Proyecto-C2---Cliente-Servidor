@@ -100,11 +100,19 @@ export class MysqlUserReporitory implements UserRepository {
     
   }
 
-  async updateUserCorreo(correo: string): Promise<Usuario | null> {
+  async updateUserCorreo(id:number , correo: string): Promise<Usuario | null> {
     try {
-      
+      const updateUserCorreo = await UsuarioModel.findByPk(id);
+      if (updateUserCorreo) {
+        await updateUserCorreo.update({correo});
+        return updateUserCorreo;
+        
+      }else{
+        return null;
+      }
     } catch (error) {
-      
+      console.log("Error en sqlCapitulo.repositorio en putCapitulopersonajePrin", error);
+      return null;
     }
   }
 

@@ -11,7 +11,7 @@ export interface UserRepository {
 
   deleteUser(nombre: string):Promise<Usuario| null>;
   
-  updateUserCorreo(correo: string): Promise <Usuario|null>;
+  updateUserCorreo(id: number ,correo: string): Promise <Usuario|null>;
 
   
   createUser(
@@ -26,18 +26,5 @@ export interface UserRepository {
 }
 
 
-async putCapitulopersonajePrin(id:number,personajePrin:string):Promise<Capitulo | null>{
-  try {
-      const putCApituloPersonajePrin = await CapituloModel.findByPk(id);
-      if(putCApituloPersonajePrin){
-          await putCApituloPersonajePrin.update({personajePrin});
-          return putCApituloPersonajePrin;
-      }else{
-          return null;
-      }
-  } catch (error) {
-      console.log("Error en sqlCapitulo.repositorio en putCapitulopersonajePrin", error);
-      return null;
-  }
-}
+
 
