@@ -9,6 +9,8 @@ export interface UserRepository {
 
   getAllUser(): Promise<Usuario[] | null>;
 
+
+  
   deleteUser(nombre: string):Promise<Usuario| null>;
   
   updateUserCorreo(id: number ,correo: string): Promise <Usuario|null>;

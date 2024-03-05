@@ -1,4 +1,6 @@
-export const typeDefs = `
+import {gql} from "apollo-server-express";
+
+export const typeDefs = gql`
 type Usuario{
     id:ID
     nombre: String
@@ -8,30 +10,24 @@ type Usuario{
     urlhook:String
 }
 type Peliculas{
-    id:ID
-    nombre:String
-    edad:Int
-    peso: Int
-    especie: String
-    alimentacion:String
-    distribucion:String
-    categoria:String
+     id:number
+     titulo: string
+     director : string
+     categoria : string
 }
 type Query{
-    user(usuario:String, password:String): User
-    users: [User]
-    animals: [Animal]
-    animal(id:ID): Animal
-    animalByEspecie(especie:String):Animal
+    user(usuario:String, password:String): Usuario
+    users: [Usuario]
+    peliculas:[Peliculas]
+    peliculaByTitulo(titulo:String):Peliculas
+    peliculaByDirector(director:String):Peliculas
+    peliculaByCategoria(categoria:String):Peliculas    
 }
-type animalInput {
-    nombre:String 
-    edad:Int
-    peso: Int
-    especie:String
-    alimentacion:String
-    distribucion:String
-    categoria:String
+type peliculaInput {
+    id:number
+    titulo: string
+    director : string
+    categoria : string
 }
 type userInput {
     nombre: String
@@ -39,21 +35,9 @@ type userInput {
     usuario: String
     correo: String
 }
-type animalPutInput{
-    id: ID
-    categoria: String
-}
-type animalEdadInput{
-    nombre:String
-    edad: Int
-}
-
 
 type Mutation{
-    createAnimal(animal:animalInput):Animal
-    createUser(user: userInput):User
-    putAnimalEdad(animal:animalEdadInput):Animal
-    putAnimalCategory(animal:animalPutInput):Animal
-    deleteAnimal(id:Int):String
+  
+   
 }
 `;
