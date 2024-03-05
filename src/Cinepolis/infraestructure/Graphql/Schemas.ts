@@ -9,6 +9,10 @@ type Usuario{
     correo:String
     urlhook:String
 }
+type Login{
+    user:Usuario
+    token:String
+}
 type Peliculas{
      id:Int
      titulo: String
@@ -16,8 +20,8 @@ type Peliculas{
      categoria : String
 }
 type Query{
-    user(usuario:String, password:String): Usuario
-    users:[Usuario]
+    usuario(usuario:String, password:String):Login
+    usuarios:[Usuario]
     peliculas:[Peliculas]
     peliculaByTitulo(titulo:String):Peliculas
     peliculaByDirector(director:String):Peliculas
@@ -37,13 +41,14 @@ input usuarioInput {
     correo: String
 }
 
+
 type Mutation{
     addPelicula(pelicula:peliculaInput):Peliculas
     deletePelicula(pelicula:peliculaInput):Peliculas
     updatePeliculaCategoria(pelicula:peliculaInput):Peliculas
     
     deleteUser(usuario: usuarioInput):Usuario
-    updateUserCorreo(usuario:usuarioInput):Usuario
+    updateUser(usuario:usuarioInput):Usuario
     createUser(usuario:usuarioInput):Usuario
 
  

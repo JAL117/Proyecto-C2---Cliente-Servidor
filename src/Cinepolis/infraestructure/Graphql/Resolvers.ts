@@ -23,8 +23,8 @@ export class Resolvers {
     readonly getAllUserUseCase: GetAllUserUseCase,
     readonly getUserUseCase: GetUserUseCase,
     readonly updateUserCorreoUseCase: UpdateUserCorreoUseCase,
-    
     //Peliculas
+
     readonly getAllPeliculaUseCase: GetAllPeliculaUseCase,
     readonly getPeliculabyCategoriaUseCase: GetPeliculabyCategoriaUseCase,
     readonly getPeliculabyDirectorUseCase: GetPeliculabyDirectorUseCase,
@@ -33,212 +33,208 @@ export class Resolvers {
     readonly addPeliculaUseCase: addPeliculaUseCase,
     readonly deletePeliculaUseCase: DeletePeliculaUseCase,
 
-    readonly servicesAuth : ServicesAuth
+    readonly servicesAuth: ServicesAuth
   ) {}
-
+  
   resolvers: any = {
     Query: {
-      usuario: async (_: void, args: any , context : any) => {
-        let key = await this.servicesAuth.run(context.authScope);
+      usuario: async (_: void, args: any) => {
+      
+        console.log("mamaste");
         
-        if (key) {
-          const Usuario: any = await this.getUserUseCase.run(
-          args.usuario,
-          args.password
-        );
-        console.log(Usuario[0], Usuario[1]);
-
-        return Usuario[0];
-        } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
-          }
-        }
     
+          const Usuario: any = await this.getUserUseCase.run(
+            args.usuario,
+            args.password
+          ) 
+          console.log(Usuario[0], Usuario[1]);
+
+          return {user:Usuario[0],token:Usuario[1]};
+        
       },
-      usuarios: async (_: void, args: any , context : any) => {
+      usuarios: async (_: void, args: any, context: any) => {
         let key = await this.servicesAuth.run(context.authScope);
 
         if (key) {
           const usuarios: any = await this.getAllUserUseCase.run();
-          console.log(usuarios);      
+          console.log(usuarios);
           return usuarios;
         } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
-          }
-          
+          throw (
+            (new GraphQLError("Acceso denegado"),
+            {
+              extensions: { code: "UNAUTHENTICATE" },
+            })
+          );
         }
-
-
- 
       },
-      peliculaByCategoria:async(_:void , args:any , context : any)=>{
+      peliculaByCategoria: async (_: void, args: any, context: any) => {
         let key = await this.servicesAuth.run(context.authScope);
 
         if (key) {
-            const pelicula : any = this.getPeliculabyCategoriaUseCase.run(
+          const pelicula: any = this.getPeliculabyCategoriaUseCase.run(
             args.categoria
-        )
-        console.log(pelicula);
-          
+          );
+          console.log(pelicula);
         } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
-          }
+          throw (
+            (new GraphQLError("Acceso denegado"),
+            {
+              extensions: { code: "UNAUTHENTICATE" },
+            })
+          );
         }
-      
       },
-      peliculas: async(_:void , args : any , context :any)=>{
+      peliculas: async (_: void, args: any, context: any) => {
         let key = await this.servicesAuth.run(context.authScope);
 
         if (key) {
-           const peliculas : any = await this.getAllPeliculaUseCase.run();
-        console.log(peliculas);
-        return peliculas
+          const peliculas: any = await this.getAllPeliculaUseCase.run();
+          console.log(peliculas);
+          return peliculas;
         } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
+          throw (
+            (new GraphQLError("Acceso denegado"),
+            {
+              extensions: { code: "UNAUTHENTICATE" },
+            })
+          );
         }
-      }
-             
       },
-      peliculaByDirector: async(_:void,args:any , context:any)=>{
+      peliculaByDirector: async (_: void, args: any, context: any) => {
         let key = await this.servicesAuth.run(context.authScope);
-        
+
         if (key) {
-             const pelicula : any = this.getPeliculabyDirectorUseCase.run(
+          const pelicula: any = this.getPeliculabyDirectorUseCase.run(
             args.director
-        )
-        console.log(pelicula);
+          );
+          console.log(pelicula);
         } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
+          throw (
+            (new GraphQLError("Acceso denegado"),
+            {
+              extensions: { code: "UNAUTHENTICATE" },
+            })
+          );
         }
-        }
-     
-        
       },
-      peliculaByTitulo: async(_:void , args:any , context:any)=>{
+      peliculaByTitulo: async (_: void, args: any, context: any) => {
         let key = await this.servicesAuth.run(context.authScope);
 
         if (key) {
-              const pelicula : any = this.getPeliculabyTituloUseCase.run(
+          const pelicula: any = this.getPeliculabyTituloUseCase.run(
             args.titulo
-        )
-        console.log(pelicula);
+          );
+          console.log(pelicula);
         } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
+          throw (
+            (new GraphQLError("Acceso denegado"),
+            {
+              extensions: { code: "UNAUTHENTICATE" },
+            })
+          );
         }
-        }
-
-    
-        
-      }
-
+      },
     },
     Mutation: {
-      createUser: async (_: void, args: any , context : any) => {
-        let key = await this.servicesAuth.run(context.authScope);
-
-        if (key) {
-             const usuario = await this.createUserUseCase.run(
-          args.id,
-          args.nombre,
-          args.password,
-          args.usuario,
-          args.correo
+      createUser: async (_: void, args: any) => {
+        console.log(args);
+        
+        const usuario = await this.createUserUseCase.run(
+          args.usuario.nombre,
+          args.usuario.password,
+          args.usuario.usuario,
+          args.usuario.correo
         );
         console.log(usuario);
         return usuario;
-        } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
-        }
-        }
-     
       },
-      deleteUser: async (_: void, args: any , context:any) => {
+      deleteUser: async (_: void, args: any, context: any) => {
         let key = await this.servicesAuth.run(context.authScope);
 
         if (key) {
-           const usuario = await this.deleteUserUseCase.run(args.nombre);
-        console.log(usuario);
-        return usuario; 
+          const usuario = await this.deleteUserUseCase.run(args.nombre);
+          console.log(usuario);
+          return usuario;
         } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
+          throw (
+            (new GraphQLError("Acceso denegado"),
+            {
+              extensions: { code: "UNAUTHENTICATE" },
+            })
+          );
         }
-        }
-      
       },
-      updateUser: async (_: void, args: any , context:any) => {
+      updateUser: async (_: void, args: any, context: any) => {
         let key = await this.servicesAuth.run(context.authScope);
 
         if (key) {
-            const usuario = await this.updateUserCorreoUseCase.run(
-          args.id,
-          args.nombre
-        );
-        console.log(usuario);
-        return usuario;
+          const usuario = await this.updateUserCorreoUseCase.run(
+            args.id,
+            args.nombre
+          );
+          console.log(usuario);
+          return usuario;
         } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
+          throw (
+            (new GraphQLError("Acceso denegado"),
+            {
+              extensions: { code: "UNAUTHENTICATE" },
+            })
+          );
         }
-        }
-      
       },
-      addPelicula: async (_:void , args: any , context : any)=>{
+      addPelicula: async (_: void, args: any, context: any) => {
         let key = await this.servicesAuth.run(context.authScope);
         if (key) {
-             const pelicula = await this.addPeliculaUseCase.run(
+          const pelicula = await this.addPeliculaUseCase.run(
             args.id,
             args.titulo,
             args.director,
             args.categoria
-        )
-        console.log(pelicula); 
+          );
+          console.log(pelicula);
         } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
+          throw (
+            (new GraphQLError("Acceso denegado"),
+            {
+              extensions: { code: "UNAUTHENTICATE" },
+            })
+          );
         }
-        }
-     
       },
-      deletePelicula: async (_:void , args:any , context:any)=>{
-        let key = await this.servicesAuth.run(context)
-
-        if (key) {
-             const pelicula = await this.deletePeliculaUseCase.run(
-          args.titulo
-       )
-       console.log(pelicula);
-        } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
-        }
-        }
-    
-      },
-      updatePeliculaCategoria: async(_:void , args:any , context:any)=>{
+      deletePelicula: async (_: void, args: any, context: any) => {
         let key = await this.servicesAuth.run(context);
 
         if (key) {
-                 const pelicula = await this.updapePeliculaCategoriaUseCase.run(
-            args.categoria
-        )
-        console.log(pelicula);
+          const pelicula = await this.deletePeliculaUseCase.run(args.titulo);
+          console.log(pelicula);
         } else {
-          throw new GraphQLError("Acceso denegado"),{
-            extensions: {code: "UNAUTHENTICATE"}
+          throw (
+            (new GraphQLError("Acceso denegado"),
+            {
+              extensions: { code: "UNAUTHENTICATE" },
+            })
+          );
         }
+      },
+      updatePeliculaCategoria: async (_: void, args: any, context: any) => {
+        let key = await this.servicesAuth.run(context);
+
+        if (key) {
+          const pelicula = await this.updapePeliculaCategoriaUseCase.run(
+            args.categoria
+          );
+          console.log(pelicula);
+        } else {
+          throw (
+            (new GraphQLError("Acceso denegado"),
+            {
+              extensions: { code: "UNAUTHENTICATE" },
+            })
+          );
         }
- 
-        
-      }  
-      
+      },
     },
   };
 }

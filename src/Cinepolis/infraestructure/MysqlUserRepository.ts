@@ -4,7 +4,6 @@ import UsuarioModel from "./model/UsuarioModel";
 
 export class MysqlUserReporitory implements UserRepository {
   async createUser(
-    id : number,
     nombre: string,
     password: string,
     usuario: string,
@@ -12,12 +11,13 @@ export class MysqlUserReporitory implements UserRepository {
   ): Promise<Usuario | null> {
     try {
       const createUsuario = await UsuarioModel.create({
-        id,
         nombre,
         password,
         usuario,
         correo
       });
+      console.log(createUsuario);
+      
       return new Usuario(
       createUsuario.id,
        createUsuario.nombre,
