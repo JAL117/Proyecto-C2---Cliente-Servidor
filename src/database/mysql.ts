@@ -22,7 +22,7 @@ export const sequelize = new Sequelize({
   export async function iniciarBaseDeDatos() {
    try {
     await sequelize.authenticate();
-    signale.success("Coenctado");
+    signale.success("Conectado");
     await sequelize.sync({force:false})
    } catch (error) {
     signale.error("Error al conectar" , error)
