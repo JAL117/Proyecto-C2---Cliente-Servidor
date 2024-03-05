@@ -1,0 +1,46 @@
+//import { query } from "../../database/mysql";
+import { Usuario } from "../domain/entities/User";
+import { UserRepository } from "../domain/repository/UserRepository";
+
+export class MysqlUserRepository implements UserRepository {
+  async getUser(
+    usuario: string,
+    password: string
+  ): Promise<[Usuario[], string] | null> {
+    const sql = "SELECT * FROM usuarios where usuario= ? ";
+    let params: any[] = [usuario];
+    try {
+      const [data]: any = await query(sql, params);
+      const dataUsers : any = Object.values(JSON.parse(JSON.stringify(data)));
+      return dataUsers
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+  async getAllUser(): Promise<Usuario[] | null> {
+    const sql = "SELECT * FROM usuarios ";
+    try {
+      const [data]: any = await query(sql, []);
+      const dataUsers = Object.values(JSON.parse(JSON.stringify(data)));
+
+      return dataUsers.map(
+        (user: any) =>
+          new Usuario(
+            user.id,
+            user.nombre,
+            user.password,
+            user.usuario,
+            user.correo
+          )
+      );
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
+  async createUser(
+
+  }
+}
