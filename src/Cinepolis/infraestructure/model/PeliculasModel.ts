@@ -5,7 +5,7 @@ import { Table , Column , DataType ,Model } from "sequelize-typescript";
     timestamps: false
 })
 
-class UsuarioModel extends Model{
+class PeliculasModel extends Model{
     @Column({
         type: DataType.INTEGER,
         primaryKey: true
@@ -34,4 +34,4 @@ class UsuarioModel extends Model{
 
 }
 
-export default UsuarioModel;
+export default PeliculasModel;

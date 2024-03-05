@@ -10,7 +10,7 @@ class UsuarioModel extends Model{
         type: DataType.INTEGER,
         primaryKey: true
     })
-    public id! : number;
+    public id!:number;
     @Column({
         type: DataType.STRING,
         allowNull:false
