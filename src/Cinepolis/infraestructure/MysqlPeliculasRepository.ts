@@ -1,7 +1,8 @@
 import { Peliculas } from "../domain/entities/Peliculas";
 import PeliculasModel from "./model/PeliculasModel";
 import { PeliculasRepository } from "../domain/repository/PeliculasRepository";
-export class MysqlPeliculasReporitory implements PeliculasRepository {
+
+export class MysqlPeliculasRepository implements PeliculasRepository {
   async addPelicula(
     id: number,
     titulo: string,
@@ -20,101 +21,146 @@ export class MysqlPeliculasReporitory implements PeliculasRepository {
         createPelicula.titulo,
         createPelicula.director,
         createPelicula.categoria
-        
       );
     } catch (error) {
-      console.log("Error en sqlPeliculas.repositorio en addPersonaje", error);
+      console.log("Error en MysqlPeliculasRepository en addPelicula", error);
       return null;
     }
   }
 
-
-  async getUser(
-    usuario: string,
-    password: string
-  ): Promise<[Usuario, string] | null> {
+  async deletePelicula(titulo: string): Promise<Peliculas | null> {
     try {
-      const getSignUsuario = await UsuarioModel.findOne({
-        where: { usuario: usuario },
+      const peliculaEliminada = await PeliculasModel.findOne({
+        where: { titulo: titulo },
       });
-
-      if (getSignUsuario) {
-        await getSignUsuario.get();
-        return [
-          new Usuario(
-            getSignUsuario.id,
-            getSignUsuario.nombre,
-            getSignUsuario.password,
-            getSignUsuario.usuario,
-            getSignUsuario.correo
-          ),
-          "",
-        ];
+      if (peliculaEliminada) {
+        await peliculaEliminada.destroy();
+        return new Peliculas(
+          peliculaEliminada.id,
+          peliculaEliminada.titulo,
+          peliculaEliminada.director,
+          peliculaEliminada.categoria
+        );
       } else {
         return null;
       }
     } catch (error) {
-      console.log("Error en sqlPersonaje.repositorio en getPersonaje", error);
+      console.log("Error en MysqlPeliculasRepository en deletePelicula", error);
       return null;
     }
   }
 
-  async getAllUser(): Promise<Usuario[] | null> {
+  async updatePeliculaCategoria(
+    categoria: string
+  ): Promise<Peliculas | null> {
     try {
-      const usuario = await UsuarioModel.findAll();
-      console.log(usuario);
-
-      return usuario.map((user) => ({
-        id: user.id,
-        nombre: user.nombre,
-        password: user.password,
-        usuario: user.usuario,
-        correo: user.correo,
-      }));
+      const peliculaActualizada = await PeliculasModel.findOne({
+        where: { categoria: categoria },
+      });
+      if (peliculaActualizada) {
+        await peliculaActualizada.update({ categoria });
+        return new Peliculas(
+          peliculaActualizada.id,
+          peliculaActualizada.titulo,
+          peliculaActualizada.director,
+          peliculaActualizada.categoria
+        );
+      } else {
+        return null;
+      }
     } catch (error) {
       console.log(
-        "Error en sqlPersonaje.repositorio en getAllPersonajes",
+        "Error en MysqlPeliculasRepository en updatePeliculaCategoria",
         error
       );
       return null;
     }
   }
 
-  async deleteUser(nombre: string): Promise<Usuario | null> {
+  async getAllPeliculas(): Promise<Peliculas[] | null> {
     try {
-      const usuarioEliminado = await UsuarioModel.findOne({
-        where: { nombre: nombre },
+      const peliculas = await PeliculasModel.findAll();
+      return peliculas.map((pelicula) => ({
+        id: pelicula.id,
+        titulo: pelicula.titulo,
+        director: pelicula.director,
+        categoria: pelicula.categoria,
+      }));
+    } catch (error) {
+      console.log(
+        "Error en MysqlPeliculasRepository en getAllPeliculas",
+        error
+      );
+      return null;
+    }
+  }
+
+  async getPeliculabyTitulo(titulo: string): Promise<Peliculas | null> {
+    try {
+      const pelicula = await PeliculasModel.findOne({
+        where: { titulo: titulo },
       });
-      if (usuarioEliminado) {
-        await usuarioEliminado.destroy();
-        return new Usuario(
-          usuarioEliminado.id,
-          usuarioEliminado.nombre,
-          usuarioEliminado.password,
-          usuarioEliminado.usuario,
-          usuarioEliminado.correo
+      if (pelicula) {
+        return new Peliculas(
+          pelicula.id,
+          pelicula.titulo,
+          pelicula.director,
+          pelicula.categoria
         );
       } else {
         return null;
       }
     } catch (error) {
-      console.log("Error en sqlCapitulo.repositorio en deleteCapitulo", error);
+      console.log(
+        "Error en MysqlPeliculasRepository en getPeliculabyTitulo",
+        error
+      );
       return null;
     }
   }
 
-  async updateUserCorreo(id: number, correo: string): Promise<Usuario | null> {
+  async getPeliculabyDirector(director: string): Promise<Peliculas | null> {
     try {
-      const updateUserCorreo = await UsuarioModel.findByPk(id);
-      if (updateUserCorreo) {
-        await updateUserCorreo.update({ correo });
-        return updateUserCorreo;
+      const pelicula = await PeliculasModel.findOne({
+        where: { director: director },
+      });
+      if (pelicula) {
+        return new Peliculas(
+          pelicula.id,
+          pelicula.titulo,
+          pelicula.director,
+          pelicula.categoria
+        );
       } else {
         return null;
       }
     } catch (error) {
       console.log(
-        "Error en sqlCapitulo.repositorio en putCapitulopersonajePrin",
+        "Error en MysqlPeliculasRepository en getPeliculabyDirector",
+        error
+      );
+      return null;
+    }
+  }
+
+  async getPeliculabyCategoria(categoria: string): Promise<Peliculas | null> {
+    try {
+      const pelicula = await PeliculasModel.findOne({
+        where: { categoria: categoria },
+      });
+      if (pelicula) {
+        return new Peliculas(
+          pelicula.id,
+          pelicula.titulo,
+          pelicula.director,
+          pelicula.categoria
+        );
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.log(
+        "Error en MysqlPeliculasRepository en getPeliculabyCategoria",
         error
       );
       return null;

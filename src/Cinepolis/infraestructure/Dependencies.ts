@@ -4,6 +4,14 @@ import { GetAllUserUseCase } from "../aplication/usuario/GetAllUserUseCase";
 import { GetUserUseCase } from "../aplication/usuario/GetUserUseCase";
 import { UpdateUserCorreoUseCase } from "../aplication/usuario/updateUserCorreoUseCase";
 
+import { addPeliculaUseCase } from "../aplication/pelicula/addPeliculaUseCase";
+import { DeletePeliculaUseCase } from "../aplication/pelicula/deletePeliculaUseCase";
+import { GetAllPeliculaUseCase } from "../aplication/pelicula/getAllPeliculaUseCase";
+import { GetPeliculabyCategoriaUseCase } from "../aplication/pelicula/getPeliculabyCategoria";
+import { GetPeliculabyDirectorUseCase } from "../aplication/pelicula/getPeliculabyDirector";
+import { GetPeliculabyTituloUseCase } from "../aplication/pelicula/getPeliculabyTituloUseCase";
+import { UpdatePeliculaCategoriaUseCase } from "../aplication/pelicula/updatePeliculaCategoriaUseCase";
+
 import { IEncryptServices } from "../aplication/services/IEncrypt";
 import { ServicesTokensUser } from "../aplication/services/ServicesTokens";
 
@@ -15,6 +23,7 @@ import { Resolvers } from "./Graphql/Resolvers";
 
 
 import { MysqlUserReporitory } from "./MysqlUserRepository";
+
 
 const mysqlUserRepository = new MysqlUserReporitory();
 const ecripty = new  EncryptServices();

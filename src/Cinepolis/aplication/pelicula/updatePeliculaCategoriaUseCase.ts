@@ -1,6 +1,6 @@
 import { Peliculas } from "../../domain/entities/Peliculas";
 import { PeliculasRepository } from "../../domain/repository/PeliculasRepository";
-export class UpdateUserCorreoUseCase{
+export class UpdatePeliculaCategoriaUseCase{
     constructor(readonly peliculaRepository:PeliculasRepository){}
     async run(categoria:string):Promise <Peliculas | null>{
         try {

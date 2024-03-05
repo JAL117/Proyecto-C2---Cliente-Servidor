@@ -11,3 +11,4 @@ export interface PeliculasRepository {
  getPeliculabyCategoria(categoria:string): Promise < Peliculas|null>
 
 }
+
